@@ -3,7 +3,8 @@
 
 import time
 
-from pages.elements_page import TextBoxPage
+from pages.elements_page import TextBoxPage, CheckBoxPage
+
 
 class TestElements: # основной класс для наших тестов
     class TestTextBox: # класс которые который отвечает за проверку полей на https://demoqa.com/text-box
@@ -19,3 +20,16 @@ class TestElements: # основной класс для наших тестов
             assert permanent_address == output_per_addr,  "the permanent_address does not match"
             #сравниваем данные которые ввели и которые отобразились в таблице
 
+class TestChechBox:
+    def test_check_box(self, driver):
+        check_box_page = CheckBoxPage(driver,"https://demoqa.com/checkbox")
+        check_box_page.open()
+        check_box_page.open_full_list()
+        check_box_page.click_random_checkbox()
+        input_checkbox = check_box_page.get_checked_checkboxes()
+        output_result = check_box_page.get_output_result()
+
+        print(input_checkbox)
+        print(output_result)
+
+        assert input_checkbox == output_result, 'checkboxes have been selected'
