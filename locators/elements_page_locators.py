@@ -28,3 +28,12 @@ class CheckBoxPageLocators:  # определили локаторы на стр
     TITLE_ITEM = (By.XPATH, './/ancestor::span[@class="rct-text"]')
     OUTPUT_RESULT = (By.CSS_SELECTOR, "span[class = 'text-success']")
 
+class RadioButtonPageLocators: # определили локаторы на странице радиокнопки.
+
+    YES_RADIOBUTTON = (By.XPATH, "//label[contains(@class, 'custom-control-label') and text()='Yes']")
+    IMPRESSIVE_RADIOBUTTON =(By.XPATH, "//label[contains(@class, 'custom-control-label') and text()='Impressive']")
+    NO_RADIBUTTON = (By.XPATH,"//label[contains(@class, 'custom-control-label') and text()='No']")
+    OUTPUT_RESULT_BUTTON = (By.CSS_SELECTOR, 'p span[class = "text-success"]')
+    # c помощью chatgpt
+
+

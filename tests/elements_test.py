@@ -3,7 +3,7 @@
 
 import time
 
-from pages.elements_page import TextBoxPage, CheckBoxPage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage
 
 
 class TestElements: # основной класс для наших тестов
@@ -20,16 +20,37 @@ class TestElements: # основной класс для наших тестов
             assert permanent_address == output_per_addr,  "the permanent_address does not match"
             #сравниваем данные которые ввели и которые отобразились в таблице
 
-class TestChechBox:
-    def test_check_box(self, driver):
-        check_box_page = CheckBoxPage(driver,"https://demoqa.com/checkbox")
-        check_box_page.open()
-        check_box_page.open_full_list()
-        check_box_page.click_random_checkbox()
-        input_checkbox = check_box_page.get_checked_checkboxes()
-        output_result = check_box_page.get_output_result()
+    class TestChechBox: # класс в котором проводятс проверки на странице ЧЕКБОКСОВ
+        def test_check_box(self, driver):
+            check_box_page = CheckBoxPage(driver,"https://demoqa.com/checkbox")
+            check_box_page.open() #открыли страницу
+            check_box_page.open_full_list() #раскрыли все чекбоксы
+            check_box_page.click_random_checkbox() #выделили рандомом чекбоксы
+            input_checkbox = check_box_page.get_checked_checkboxes() #нашли названия выделеных чекбоксов
+            output_result = check_box_page.get_output_result() #нашли результат выделения чекбоксов (список с выделенными чекбоксам)
+            assert input_checkbox == output_result, 'checkboxes have been selected'
+        # сравнили результаты
 
-        print(input_checkbox)
-        print(output_result)
 
-        assert input_checkbox == output_result, 'checkboxes have been selected'
+        class TestRadioButton: # класс который проводит тесты на радиокнопки
+            def test_radiobutton(self, driver):
+                radio_button_page = RadioButtonPage(driver, "https://demoqa.com/radio-button")
+                radio_button_page.open()
+
+                #Проверка на первую радиокнопку
+                radio_button_page.click_on_the_radio_button('yes')
+                output_yes = radio_button_page.get_output_result_button()
+                assert output_yes == 'Yes', '"YES" have not been selected'
+
+                # Проверка на вторую радиокнопку
+                radio_button_page.click_on_the_radio_button('impressive')
+                output_impressive = radio_button_page.get_output_result_button()
+                assert output_impressive == 'Impressive', '"Impressive" have not been selected'
+
+                # Проверка на третью радиокнопку (баг)
+                radio_button_page.click_on_the_radio_button('no')
+                output_no = radio_button_page.get_output_result_button()
+                assert output_no == 'No','"No" have not been selected'
+
+
+

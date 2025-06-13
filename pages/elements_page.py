@@ -2,7 +2,7 @@
 import random
 import time
 
-from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators
+from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators
 from pages.base_page import BasePage
 from generator.generator import generated_person
 
@@ -35,7 +35,7 @@ class TextBoxPage(BasePage):  # класс где буду работа с по�
         return full_name, email, current_address, permanent_address
 
 
-class CheckBoxPage(BasePage):
+class CheckBoxPage(BasePage): # класс с функциями для проверки чекбоксов
     locators = CheckBoxPageLocators()
 
     def open_full_list(self):  # функция по раскрытию всего списка
@@ -54,19 +54,36 @@ class CheckBoxPage(BasePage):
             else:
                 break
 
-    def get_checked_checkboxes(self):
+    def get_checked_checkboxes(self): #функция которая вытаскивае title чекбоксов
         checked_list = self.elements_are_presents(self.locators.CHECKED_ITEMS)
         data = []
         for box in checked_list:
             title_item = box.find_element(*self.locators.TITLE_ITEM)
             data.append(title_item.text)
         return str(data).replace(' ', '').replace('doc', '').replace('.', '').lower()
+    # преобразовываем запись в понятный ви для сравнения(файл debug)
 
-    def get_output_result(self):
+    def get_output_result(self): #функция которая показывает чекбоксы которые выделены в результате
         result_list = self.elements_are_presents(self.locators.OUTPUT_RESULT)
         data = []
         for item in result_list:
             data.append(item.text)
         return str(data).replace(' ', '').lower()
+    # преобразовываем запись в понятный вид для сравнения(файл debug)
+
+class RadioButtonPage(BasePage): # класс с функциями для проверки радиокнопок
+    locators = RadioButtonPageLocators()
+
+    def click_on_the_radio_button(self, choice): # функция со списком для клика по нашим чекбоксам
+        choices = {'yes': self.locators.YES_RADIOBUTTON,
+                'impressive':self.locators.IMPRESSIVE_RADIOBUTTON,
+                'no':self.locators.NO_RADIBUTTON}
+        self.element_is_visible(choices[choice]).click()
+
+    def get_output_result_button(self): # функция с результатом после клика по нашим чекбоксам
+        return self.element_is_present(self.locators.OUTPUT_RESULT_BUTTON).text
+
+
+
 
 
