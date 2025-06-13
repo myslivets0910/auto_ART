@@ -1,5 +1,5 @@
 # устанавливаем пакет для генерации данных + заводим данные которые надо сгенерировать
-
+import random
 
 from data.data import Person
 from faker import Faker
@@ -10,7 +10,12 @@ Faker.seed()
 def generated_person(): # заводим данные которые надо сгенерировать
     yield Person(
         full_name=faker_ru.first_name() + " " + faker_ru.last_name() + " " + faker_ru.middle_name(),
-        email= faker_ru.email(),
+        firstname=faker_ru.first_name(),
+        lastname=faker_ru.last_name(),
+        age=random.randint(10,80),
+        salary=random.randint(3000,10000),
+        department=faker_ru.job() ,
+        email=faker_ru.email(),
         current_address= faker_ru.address(),
         permanent_address=faker_ru.address(),
     )
