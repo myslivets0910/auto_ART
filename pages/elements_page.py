@@ -2,7 +2,8 @@
 import random
 import time
 
-from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators
+from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
+   WebTablePageLocators
 from pages.base_page import BasePage
 from generator.generator import generated_person
 
@@ -82,6 +83,49 @@ class RadioButtonPage(BasePage): # класс с функциями для пр�
 
     def get_output_result_button(self): # функция с результатом после клика по нашим чекбоксам
         return self.element_is_present(self.locators.OUTPUT_RESULT_BUTTON).text
+
+class WebTablePage(BasePage):
+    #класс на создание / проверку / удаление данных из таблицы
+    locators = WebTablePageLocators()
+
+    def add_new_person(self): # функция на создание новой персоны. Используем рандомные данные.
+        count = 1
+        while count != 0:
+            person_info = next(generated_person())
+            firstname = person_info.firstname
+            lastname = person_info.lastname
+            email = person_info.email
+            age = person_info.age
+            salary = person_info.salary
+            department = person_info.department
+            self.element_is_visible(self.locators.ADD_BUTTON_PERSON_WEBTABLE).click()
+            self.element_is_visible(self.locators.FIRST_NAME_INPUT_WEBTABLE).send_keys(firstname)
+            self.element_is_visible(self.locators.LAST_NAME_INPUT_WEBTABLE).send_keys(lastname)
+            self.element_is_visible(self.locators.EMAIL_INPUT_WEBTABLE).send_keys(email)
+            self.element_is_visible(self.locators.AGE_INPUT_WEBTABLE).send_keys(age)
+            self.element_is_visible(self.locators.SALARY_INPUT_WEBTABLE).send_keys(salary)
+            self.element_is_visible(self.locators.DEPARTMENT_INPUT_WEBTABLE).send_keys(department)
+            self.element_is_visible(self.locators.SUBMIT_ADD_FORM_PERSON_WEBTABLE).click()
+            count -=1
+            return [firstname, lastname, str(age), email, str(salary),department]
+
+    def check_new_person_web_table(self): # функция на проверку созданной персоны в таблице. (преобразование данных)
+        person_list = self.elements_are_presents(self.locators.FULL_PEOPLE_LIST)
+        data = []
+        for item in person_list:
+            data.append(item.text.splitlines())
+        return data
+
+    def search_for_a_person_in_web_table(self,key_word): # поиск персоны в таблице
+        self.element_is_visible(self.locators.SEARCH_TABLE).send_keys(key_word)
+
+    def check_search_person_in_web_table(self):
+        delete_button = self.element_is_present(self.locators.DELETE_BUTTON_PERSON)
+        row = delete_button.find_element(self.locators.ROW_PARENT_SEARCH_TABLE)
+        return row.text.splitlines()
+
+
+
 
 
 

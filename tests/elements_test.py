@@ -1,9 +1,8 @@
 # прописваем тесты только здесь
-
-
+import random
 import time
 
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage
 
 
 class TestElements: # основной класс для наших тестов
@@ -32,25 +31,60 @@ class TestElements: # основной класс для наших тестов
         # сравнили результаты
 
 
-        class TestRadioButton: # класс который проводит тесты на радиокнопки
-            def test_radiobutton(self, driver):
-                radio_button_page = RadioButtonPage(driver, "https://demoqa.com/radio-button")
-                radio_button_page.open()
+    class TestRadioButton: # класс который проводит тесты на радиокнопки
+        def test_radiobutton(self, driver):
+            radio_button_page = RadioButtonPage(driver, "https://demoqa.com/radio-button")
+            radio_button_page.open()
 
                 #Проверка на первую радиокнопку
-                radio_button_page.click_on_the_radio_button('yes')
-                output_yes = radio_button_page.get_output_result_button()
-                assert output_yes == 'Yes', '"YES" have not been selected'
+            radio_button_page.click_on_the_radio_button('yes')
+            output_yes = radio_button_page.get_output_result_button()
+            assert output_yes == 'Yes', '"YES" have not been selected'
 
                 # Проверка на вторую радиокнопку
-                radio_button_page.click_on_the_radio_button('impressive')
-                output_impressive = radio_button_page.get_output_result_button()
-                assert output_impressive == 'Impressive', '"Impressive" have not been selected'
+            radio_button_page.click_on_the_radio_button('impressive')
+            output_impressive = radio_button_page.get_output_result_button()
+            assert output_impressive == 'Impressive', '"Impressive" have not been selected'
 
                 # Проверка на третью радиокнопку (баг)
-                radio_button_page.click_on_the_radio_button('no')
-                output_no = radio_button_page.get_output_result_button()
-                assert output_no == 'No','"No" have not been selected'
+            radio_button_page.click_on_the_radio_button('no')
+            output_no = radio_button_page.get_output_result_button()
+            assert output_no == 'No','"No" have not been selected'
+
+    class TestWebTable:
+        # класс который проводит тесты с таблицей.
+        def test_web_table_add_person(self,driver):
+            web_table_page = WebTablePage(driver, "https://demoqa.com/webtables")
+            web_table_page.open()
+            new_person = web_table_page.add_new_person()
+            # создание новой персоны
+            table_result = web_table_page.check_new_person_web_table()
+            # проверка новой персоны в таблице
+            print(new_person)
+            print(table_result)
+            assert new_person in table_result
+
+        def test_search_for_a_person_in_web_table(self, driver):
+            # тест на проверку персоны в таблице через поисковую строку
+            web_table_page = WebTablePage(driver, "https://demoqa.com/webtables")
+            web_table_page.open()
+            key_word = web_table_page.add_new_person()[random.randint(0,5)]
+            # вводим рандомное значение персоны
+            web_table_page.search_for_a_person_in_web_table(key_word)
+            # ищем в таблице персону по значению
+            table_result = web_table_page.check_new_person_web_table()
+            # проверяем что такое значение в таблице есть
+            print(key_word)
+            print(table_result)
+
+            # Проверяем, содержится ли key_word в одной из строк таблицы
+            assert any(key_word in row for row in table_result), f"'{key_word}' not found in the results"
+
+
+
+
+
+
 
 
 

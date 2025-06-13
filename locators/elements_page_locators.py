@@ -37,3 +37,28 @@ class RadioButtonPageLocators: # определили локаторы на ст
     # c помощью chatgpt
 
 
+class WebTablePageLocators: # определили локаторы на странице c таблицей.
+
+    ADD_BUTTON_PERSON_WEBTABLE = (By.CSS_SELECTOR, '#addNewRecordButton')
+
+    #form
+    FIRST_NAME_INPUT_WEBTABLE = (By.CSS_SELECTOR, '#firstName')
+    LAST_NAME_INPUT_WEBTABLE = (By.CSS_SELECTOR, '#lastName')
+    EMAIL_INPUT_WEBTABLE = (By.CSS_SELECTOR, '#userEmail')
+    AGE_INPUT_WEBTABLE = (By.CSS_SELECTOR, '#age')
+    SALARY_INPUT_WEBTABLE = (By.CSS_SELECTOR, '#salary')
+    DEPARTMENT_INPUT_WEBTABLE = (By.CSS_SELECTOR, '#department')
+    SUBMIT_ADD_FORM_PERSON_WEBTABLE = (By.CSS_SELECTOR, '#submit')
+
+    #table
+    FULL_PEOPLE_LIST = (By.XPATH,'//div[@class="rt-tr-group"]')
+    SEARCH_TABLE = (By.XPATH,'//*[@id="searchBox"]')
+    SEARCH_TABLE_BUTTON = (By.XPATH,'//*[@id="basic-addon2"]')
+
+
+    EDIT_BUTTON_PERSON = (By.CSS_SELECTOR,'')
+
+    DELETE_BUTTON_PERSON = (By.XPATH,'//span[@title="Delete"]')
+    ROW_PARENT_SEARCH_TABLE = (By.XPATH,'.//ancestor::div[@class="rt-tr-group"]')
+
+    CHECK_PERSON = (By.CSS_SELECTOR,'')
