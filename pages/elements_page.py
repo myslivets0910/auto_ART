@@ -2,6 +2,8 @@
 import random
 import time
 
+from selenium.webdriver.common.by import By
+
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
    WebTablePageLocators
 from pages.base_page import BasePage
@@ -119,10 +121,47 @@ class WebTablePage(BasePage):
     def search_for_a_person_in_web_table(self,key_word): # поиск персоны в таблице
         self.element_is_visible(self.locators.SEARCH_TABLE).send_keys(key_word)
 
-    def check_search_person_in_web_table(self):
+    def check_search_person_in_web_table(self): # проверка, на то что данная запись есть в таблице
         delete_button = self.element_is_present(self.locators.DELETE_BUTTON_PERSON)
         row = delete_button.find_element(self.locators.ROW_PARENT_SEARCH_TABLE)
         return row.text.splitlines()
+
+    def update_person_info(self):
+        # функция изменяет данные персоны (возраст) == надо откорректировать по всем полям
+        person_info = next(generated_person())
+        age = person_info.age
+        self.element_is_visible(self.locators.UPDATE_BUTTON_PERSON).click()
+        self.element_is_visible(self.locators.AGE_INPUT_WEBTABLE).clear()
+        self.element_is_visible(self.locators.AGE_INPUT_WEBTABLE).send_keys(age)
+        self.element_is_visible(self.locators.SUBMIT_ADD_FORM_PERSON_WEBTABLE).click()
+        return str(age)
+
+    def delete_person(self): # функция удаления персоны
+        self.element_is_visible(self.locators.DELETE_BUTTON_PERSON).click()
+
+    def check_deleted(self): # функция определения локатора который указывает на отсутствие данных в таблице
+        return self.element_is_present(self.locators.NO_ROWS_FOUND).text
+
+    def select_up_to_some_row(self):
+        # функция по смене значение (селекта у строк)
+        count = [5, 10, 20, 25, 50, 100]
+        data = []
+        for x in count:
+            count_row_button = self.element_is_visible(self.locators.CHANGE_THE_LINES_PAGE)
+            self.driver.execute_script("arguments[0].scrollIntoView();", count_row_button)
+            count_row_button.click()
+            self.element_is_visible((By.CSS_SELECTOR,f'option[value = "{x}"]')).click()
+            data.append(self.check_count_rows())
+        return data
+
+    def check_count_rows(self):
+        # функция возвращает кол-во строк в табблице
+        list_table = self.elements_are_presents(self.locators.FULL_PEOPLE_LIST)
+        return len(list_table)
+
+
+
+
 
 
 

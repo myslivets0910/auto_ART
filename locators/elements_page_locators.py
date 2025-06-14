@@ -41,7 +41,7 @@ class WebTablePageLocators: # определили локаторы на стр�
 
     ADD_BUTTON_PERSON_WEBTABLE = (By.CSS_SELECTOR, '#addNewRecordButton')
 
-    #form
+    # form
     FIRST_NAME_INPUT_WEBTABLE = (By.CSS_SELECTOR, '#firstName')
     LAST_NAME_INPUT_WEBTABLE = (By.CSS_SELECTOR, '#lastName')
     EMAIL_INPUT_WEBTABLE = (By.CSS_SELECTOR, '#userEmail')
@@ -50,15 +50,15 @@ class WebTablePageLocators: # определили локаторы на стр�
     DEPARTMENT_INPUT_WEBTABLE = (By.CSS_SELECTOR, '#department')
     SUBMIT_ADD_FORM_PERSON_WEBTABLE = (By.CSS_SELECTOR, '#submit')
 
-    #table
+    # table
     FULL_PEOPLE_LIST = (By.XPATH,'//div[@class="rt-tr-group"]')
     SEARCH_TABLE = (By.XPATH,'//*[@id="searchBox"]')
     SEARCH_TABLE_BUTTON = (By.XPATH,'//*[@id="basic-addon2"]')
-
-
-    EDIT_BUTTON_PERSON = (By.CSS_SELECTOR,'')
-
-    DELETE_BUTTON_PERSON = (By.XPATH,'//span[@title="Delete"]')
     ROW_PARENT_SEARCH_TABLE = (By.XPATH,'.//ancestor::div[@class="rt-tr-group"]')
+    NO_ROWS_FOUND = (By.XPATH,'//div[@class="rt-noData"]')
 
-    CHECK_PERSON = (By.CSS_SELECTOR,'')
+    # update_table
+    UPDATE_BUTTON_PERSON = (By.CSS_SELECTOR, 'span[title = "Edit"]')
+    DELETE_BUTTON_PERSON = (By.XPATH, '//span[@title="Delete"]')
+    CHANGE_THE_LINES_PAGE = (By.XPATH,'//select[@aria-label="rows per page"]')
+

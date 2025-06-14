@@ -80,6 +80,45 @@ class TestElements: # основной класс для наших тестов
             # Проверяем, содержится ли key_word в одной из строк таблицы
             assert any(key_word in row for row in table_result), f"'{key_word}' not found in the results"
 
+        def test_web_table_update_person_info(self,driver):
+            # обновление информации о человеке
+            web_table_page = WebTablePage(driver, "https://demoqa.com/webtables")
+            web_table_page.open()
+
+            lastname = web_table_page.add_new_person()[1] #создаем нового пользователя
+            web_table_page.search_for_a_person_in_web_table(lastname) # ищем пользователя в таблице по поисковой строке
+            age = web_table_page.update_person_info() # изменяем данные, возраст
+            table_result = web_table_page.check_new_person_web_table() # ищем пользователя в таблице
+            print(age)
+            print(table_result)
+            assert any(age in sublist for sublist in table_result), f"{age} не найдено в таблице!"
+            #Таким образом, мы используем any для проверки,
+            # присутствует ли значение age в любом из подсписков table_result.
+            # Если оно не будет найдено, генерируется более понятное сообщение об ошибке,
+            # что может помочь вам в дальнейшем диагностировании проблемы.
+
+        def test_web_table_delete_persons(self,driver):
+            # тест на удаление персоны
+            web_table_page = WebTablePage(driver, "https://demoqa.com/webtables")
+            web_table_page.open()
+            email = web_table_page.add_new_person()[3]
+            web_table_page.search_for_a_person_in_web_table(email)
+            web_table_page.delete_person()
+            text = web_table_page.check_deleted()
+            assert text == "No rows found"
+
+        def test_web_table_change_the_lines_page(self,driver):
+            # изменение отображения кол-ва строк в таблице
+            web_table_page = WebTablePage(driver, "https://demoqa.com/webtables")
+            web_table_page.open()
+            count = web_table_page.select_up_to_some_row()
+            assert count == [5, 10, 20, 25, 50, 100],'Смена кол-ва строк в таблице отработало НЕКОРРЕКТНО'
+
+
+
+
+
+
 
 
 
