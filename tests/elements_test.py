@@ -2,7 +2,7 @@
 import random
 import time
 
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage
 
 
 class TestElements: # основной класс для наших тестов
@@ -130,7 +130,24 @@ class TestElements: # основной класс для наших тестов
             print(one_click)
             assert one_click == 'You have done a dynamic click', 'the dynamic click button was not present'
 
+    class TestLinksPage:
+        # класс на проверку перехода по ссылкам
 
+        def test_check_link(self,driver):
+            # тест по переходу на активные ссылки
+            links_page = LinksPage(driver, "https://demoqa.com/links")
+            links_page.open()
+            link_href, current_link = links_page.check_new_tab_simple_link()
+            print(link_href, current_link)
+            assert link_href == current_link, 'коммент в случае падения'
+
+
+        def test_broken_link(self,driver):
+            # тест по переходу на неактивные ссылки
+            links_page = LinksPage(driver, "https://demoqa.com/links")
+            links_page.open()
+            responce_code = links_page.check_broken_link('https://demoqa.com/bad-request')
+            assert responce_code == 400, 'коммент в случае падения'
 
 
 

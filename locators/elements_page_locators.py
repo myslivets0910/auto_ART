@@ -76,6 +76,12 @@ class ButtonsPageLocators: # определили локаторы на стра
     CLICK_ME_RESULT = (By.XPATH, '//p[@id="dynamicClickMessage"]')
 
 
+class LinksPageLocators:
+    SIMPLE_LINK_HOME = (By.XPATH,'//*[@id="simpleLink"]')
+    BAD_REQUEST_LINK = (By.CSS_SELECTOR,'a[id = "bad-request"]')
+
+
+
 
 
 
