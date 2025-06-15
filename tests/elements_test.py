@@ -2,7 +2,7 @@
 import random
 import time
 
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage
 
 
 class TestElements: # основной класс для наших тестов
@@ -113,6 +113,23 @@ class TestElements: # основной класс для наших тестов
             web_table_page.open()
             count = web_table_page.select_up_to_some_row()
             assert count == [5, 10, 20, 25, 50, 100],'Смена кол-ва строк в таблице отработало НЕКОРРЕКТНО'
+
+    class TestButtonsPage:
+
+        def test_different_click_on_the_button(self, driver):
+            # тест на нажатие кнопок по очереди
+            button_page = ButtonsPage(driver, "https://demoqa.com/buttons")
+            button_page.open()
+            double = button_page.click_on_different_button("double")
+            print(double) # принты можно не оствлять, они для того что бы отсматривать результат
+            assert double == 'You have done a double click', 'the double click button was not present'
+            right = button_page.click_on_different_button("right")
+            print(right)
+            assert right == 'You have done a right click', 'the right click button was not present'
+            one_click = button_page.click_on_different_button("click")
+            print(one_click)
+            assert one_click == 'You have done a dynamic click', 'the dynamic click button was not present'
+
 
 
 

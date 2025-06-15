@@ -62,3 +62,36 @@ class WebTablePageLocators: # определили локаторы на стр�
     DELETE_BUTTON_PERSON = (By.XPATH, '//span[@title="Delete"]')
     CHANGE_THE_LINES_PAGE = (By.XPATH,'//select[@aria-label="rows per page"]')
 
+
+class ButtonsPageLocators: # определили локаторы на странице c кнопками.
+
+    # buttons
+    DOUBLE_CLICK_ME_BUTTON = (By.XPATH,'//button[@id="doubleClickBtn"]')
+    RIHGHT_CLICK_ME_BUTTON = (By.XPATH,'//button[@id="rightClickBtn"]')
+    CLICK_ME_BUTTON = (By.XPATH,'//button[text()="Click Me"]') # здесь динамический айдишник, и нашил вариант с текстом кнопки
+
+    # result_buttons
+    DOUBLE_CLICK_ME_RESULT = (By.XPATH, '//p[@id="doubleClickMessage"]')
+    RIHGHT_CLICK_ME_RESULT = (By.XPATH, '//p[@id="rightClickMessage"]')
+    CLICK_ME_RESULT = (By.XPATH, '//p[@id="dynamicClickMessage"]')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

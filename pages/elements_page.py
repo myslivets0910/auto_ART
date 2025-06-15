@@ -5,7 +5,7 @@ import time
 from selenium.webdriver.common.by import By
 
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
-   WebTablePageLocators
+    WebTablePageLocators, ButtonsPageLocators
 from pages.base_page import BasePage
 from generator.generator import generated_person
 
@@ -158,6 +158,29 @@ class WebTablePage(BasePage):
         # функция возвращает кол-во строк в табблице
         list_table = self.elements_are_presents(self.locators.FULL_PEOPLE_LIST)
         return len(list_table)
+
+
+class ButtonsPage(BasePage):
+    locators = ButtonsPageLocators()
+
+    def click_on_different_button(self, type_click): # функция в которой прожимаются все кнопка
+        # данные методы можно рефачить на каждую кнопку по отдельности + тест на каждую кнопку
+        if type_click == "double":
+            self.action_double_click(self.element_is_visible(self.locators.DOUBLE_CLICK_ME_BUTTON))
+            return self.check_clicked_button_result(self.locators.DOUBLE_CLICK_ME_RESULT)
+
+        if type_click == "right":
+            self.action_right_click(self.element_is_visible(self.locators.RIHGHT_CLICK_ME_BUTTON))
+            return self.check_clicked_button_result(self.locators.RIHGHT_CLICK_ME_RESULT)
+
+        if type_click == "click":
+            self.element_is_visible(self.locators.CLICK_ME_BUTTON).click()
+            return self.check_clicked_button_result(self.locators.CLICK_ME_RESULT)
+
+
+    def check_clicked_button_result(self, element): # функция на определение результата при нажатии на кнопку на странице кнопок .
+        return self.element_is_present(element).text
+
 
 
 

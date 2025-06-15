@@ -1,5 +1,5 @@
 # сюда прописываем функции которые будут использоваться на протяжении всех тестов и на все страницах (только меняться селекторы и условия)
-
+from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -31,5 +31,19 @@ class BasePage:
 
     def go_to_element(self, element): # помогает перемещать к нужному элементу
         self.driver.execute_script("arguments[0].ScrollIntoView;", element)
+
+    def action_double_click(self, element): # добавили функцию чтобы делать дабл клик
+        action = ActionChains(self.driver) # добавили библиотеку ActionChains
+        action.double_click(element)
+        action.perform()
+
+    def action_right_click(self, element): # добавили функцию, чтобы делать клик правой кнопкой мыши
+        action = ActionChains(self.driver)
+        action.context_click(element)
+        action.perform()
+
+
+
+
 
 
