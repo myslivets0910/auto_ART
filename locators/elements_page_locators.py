@@ -28,16 +28,17 @@ class CheckBoxPageLocators:  # определили локаторы на стр
     TITLE_ITEM = (By.XPATH, './/ancestor::span[@class="rct-text"]')
     OUTPUT_RESULT = (By.CSS_SELECTOR, "span[class = 'text-success']")
 
-class RadioButtonPageLocators: # определили локаторы на странице радиокнопки.
+
+class RadioButtonPageLocators:  # определили локаторы на странице радиокнопки.
 
     YES_RADIOBUTTON = (By.XPATH, "//label[contains(@class, 'custom-control-label') and text()='Yes']")
-    IMPRESSIVE_RADIOBUTTON =(By.XPATH, "//label[contains(@class, 'custom-control-label') and text()='Impressive']")
-    NO_RADIBUTTON = (By.XPATH,"//label[contains(@class, 'custom-control-label') and text()='No']")
+    IMPRESSIVE_RADIOBUTTON = (By.XPATH, "//label[contains(@class, 'custom-control-label') and text()='Impressive']")
+    NO_RADIBUTTON = (By.XPATH, "//label[contains(@class, 'custom-control-label') and text()='No']")
     OUTPUT_RESULT_BUTTON = (By.CSS_SELECTOR, 'p span[class = "text-success"]')
     # c помощью chatgpt
 
 
-class WebTablePageLocators: # определили локаторы на странице c таблицей.
+class WebTablePageLocators:  # определили локаторы на странице c таблицей.
 
     ADD_BUTTON_PERSON_WEBTABLE = (By.CSS_SELECTOR, '#addNewRecordButton')
 
@@ -51,24 +52,25 @@ class WebTablePageLocators: # определили локаторы на стр�
     SUBMIT_ADD_FORM_PERSON_WEBTABLE = (By.CSS_SELECTOR, '#submit')
 
     # table
-    FULL_PEOPLE_LIST = (By.XPATH,'//div[@class="rt-tr-group"]')
-    SEARCH_TABLE = (By.XPATH,'//*[@id="searchBox"]')
-    SEARCH_TABLE_BUTTON = (By.XPATH,'//*[@id="basic-addon2"]')
-    ROW_PARENT_SEARCH_TABLE = (By.XPATH,'.//ancestor::div[@class="rt-tr-group"]')
-    NO_ROWS_FOUND = (By.XPATH,'//div[@class="rt-noData"]')
+    FULL_PEOPLE_LIST = (By.XPATH, '//div[@class="rt-tr-group"]')
+    SEARCH_TABLE = (By.XPATH, '//*[@id="searchBox"]')
+    SEARCH_TABLE_BUTTON = (By.XPATH, '//*[@id="basic-addon2"]')
+    ROW_PARENT_SEARCH_TABLE = (By.XPATH, './/ancestor::div[@class="rt-tr-group"]')
+    NO_ROWS_FOUND = (By.XPATH, '//div[@class="rt-noData"]')
 
     # update_table
     UPDATE_BUTTON_PERSON = (By.CSS_SELECTOR, 'span[title = "Edit"]')
     DELETE_BUTTON_PERSON = (By.XPATH, '//span[@title="Delete"]')
-    CHANGE_THE_LINES_PAGE = (By.XPATH,'//select[@aria-label="rows per page"]')
+    CHANGE_THE_LINES_PAGE = (By.XPATH, '//select[@aria-label="rows per page"]')
 
 
-class ButtonsPageLocators: # определили локаторы на странице c кнопками.
+class ButtonsPageLocators:  # определили локаторы на странице c кнопками.
 
     # buttons
-    DOUBLE_CLICK_ME_BUTTON = (By.XPATH,'//button[@id="doubleClickBtn"]')
-    RIHGHT_CLICK_ME_BUTTON = (By.XPATH,'//button[@id="rightClickBtn"]')
-    CLICK_ME_BUTTON = (By.XPATH,'//button[text()="Click Me"]') # здесь динамический айдишник, и нашил вариант с текстом кнопки
+    DOUBLE_CLICK_ME_BUTTON = (By.XPATH, '//button[@id="doubleClickBtn"]')
+    RIHGHT_CLICK_ME_BUTTON = (By.XPATH, '//button[@id="rightClickBtn"]')
+    CLICK_ME_BUTTON = (
+    By.XPATH, '//button[text()="Click Me"]')  # здесь динамический айдишник, и нашил вариант с текстом кнопки
 
     # result_buttons
     DOUBLE_CLICK_ME_RESULT = (By.XPATH, '//p[@id="doubleClickMessage"]')
@@ -77,27 +79,14 @@ class ButtonsPageLocators: # определили локаторы на стра
 
 
 class LinksPageLocators:
-    SIMPLE_LINK_HOME = (By.XPATH,'//*[@id="simpleLink"]')
-    BAD_REQUEST_LINK = (By.CSS_SELECTOR,'a[id = "bad-request"]')
+    SIMPLE_LINK_HOME = (By.XPATH, '//*[@id="simpleLink"]')
+    BAD_REQUEST_LINK = (By.CSS_SELECTOR, 'a[id = "bad-request"]')
 
 
+class UploadDownloadPageLocators:
 
+    INPUT_UPLOAD_FILE = (By.XPATH,'//*[@id="uploadFile"]')
+    UPLOADED_RESULT = (By.XPATH, '//*[@id = "uploadedFilePath"]')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    BUTTON_DOWNLOAD = (By.XPATH, '//*[@id="downloadButton"]')
 

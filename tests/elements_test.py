@@ -2,7 +2,8 @@
 import random
 import time
 
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage, \
+     UploadDownloadPage
 
 
 class TestElements: # основной класс для наших тестов
@@ -150,11 +151,20 @@ class TestElements: # основной класс для наших тестов
             assert responce_code == 400, 'коммент в случае падения'
 
 
+class TestUploadDownloadPage:
+    def test_upload_file(self, driver):
+        # тест по загрузке файла и проверку, что загрузился этот файл
+        upload_download_page = UploadDownloadPage(driver, "https://demoqa.com/upload-download")
+        upload_download_page.open()
+        file_name, result = upload_download_page.upload_file()
+        assert file_name == result, 'the file has not been uploaded'
 
-
-
-
-
+    def test_download_file(self, driver):
+        # тест по переходу на активные ссылки
+        upload_download_page = UploadDownloadPage(driver, "https://demoqa.com/upload-download")
+        upload_download_page.open()
+        check = upload_download_page.download_file()
+        assert check is True, 'the file has not been downloaded'
 
 
 

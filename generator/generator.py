@@ -19,3 +19,12 @@ def generated_person(): # заводим данные которые надо с
         current_address= faker_ru.address(),
         permanent_address=faker_ru.address(),
     )
+
+def generated_file():
+    # генерируем файл для загрузки
+    path = rf'C:\Users\kabac\PycharmProjects\auto_ART\filetest{random.randint(0,999)}.txt'
+    file = open(path,'w+')
+    file.write(f'файл для автоматизации{random.randint(0,999)}')
+    file.close()
+    return file.name, path
+

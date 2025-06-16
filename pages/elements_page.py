@@ -1,4 +1,6 @@
 # прописываем элементы, которые будем проверять
+import base64
+import os
 import random
 import time
 
@@ -6,9 +8,9 @@ import requests
 from selenium.webdriver.common.by import By
 
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
-    WebTablePageLocators, ButtonsPageLocators, LinksPageLocators
+    WebTablePageLocators, ButtonsPageLocators, LinksPageLocators, UploadDownloadPageLocators
 from pages.base_page import BasePage
-from generator.generator import generated_person
+from generator.generator import generated_person, generated_file
 
 
 class TextBoxPage(BasePage):  # класс где буду работа с полями в https://demoqa.com/text-box
@@ -206,6 +208,39 @@ class LinksPage(BasePage):
             self.element_is_present(self.locators.BAD_REQUEST_LINK).click()
         else:
             return request.status_code
+
+
+class UploadDownloadPage(BasePage):
+    locators = UploadDownloadPageLocators()
+
+
+    def upload_file(self):
+        # создаем и возращаем знначение загруженного файла (проверка что файл загрузился)
+        file_name , path = generated_file()
+        self.element_is_present(self.locators.INPUT_UPLOAD_FILE).send_keys(path)
+        os.remove(path) # очистка созданного/скачаного файла
+        text_uploaded = self.element_is_present(self.locators.UPLOADED_RESULT).text
+        # print(file_name)
+        # print(text_uploaded)
+        return file_name.split('\\')[-1], text_uploaded.split('\\')[-1]
+
+    def download_file(self):
+        link_href = self.element_is_present(self.locators.BUTTON_DOWNLOAD).get_attribute('href')
+        # print(link_href)
+        link_b = base64.b64decode(link_href)
+        path_name_file = rf'C:\Users\kabac\PycharmProjects\auto_ART\filetest{random.randint(0,999)}.jpg'
+        with open(path_name_file, 'wb+') as f:
+            offset = link_b.find(b'\xff\xd8')
+            f.write(link_b[offset:])
+            check_file = os.path.exists(path_name_file)
+            f.close()
+        os.remove(path_name_file) # очистка созданного/скачаного файла
+        return check_file
+
+
+
+
+
 
 
 
