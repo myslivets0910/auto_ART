@@ -90,3 +90,9 @@ class UploadDownloadPageLocators:
 
     BUTTON_DOWNLOAD = (By.XPATH, '//*[@id="downloadButton"]')
 
+class DynamicPropertiesPageLocators:
+    COLOR_CHANGE_BUTTON = (By.CSS_SELECTOR,'button[id="colorChange"]')
+    VISIBLE_AFTER_5_SECONDS = (By.CSS_SELECTOR,'button[id="visibleAfter"]')
+    WILL_ENABLE_5_SECONDS = (By.CSS_SELECTOR, 'button[id="enableAfter"]')
+
+
