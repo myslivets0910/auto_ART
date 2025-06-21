@@ -12,6 +12,7 @@ class BasePage:
         self.driver.get(self.url)
 
     def element_is_visible(self, locator, timeout=5): # чтобы был виден конкретный элемент
+        self.go_to_element(locator)
         return wait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
 
     def elements_are_visible(self, locator, timeout=5): # чтобы был видно несколько элементов
@@ -41,6 +42,12 @@ class BasePage:
         action = ActionChains(self.driver)
         action.context_click(element)
         action.perform()
+
+
+    def remove_footer(self):
+        self.driver.execute_script('document.querySelector("#app > footer").remove();')
+        # self.driver.execute_script('document.getElementById("fixedban").style.display="none"')
+        self.driver.execute_script('document.querySelector("#close-fixedban").remove()')
 
 
 
