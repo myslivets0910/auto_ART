@@ -95,4 +95,3 @@ class DynamicPropertiesPageLocators:
     VISIBLE_AFTER_5_SECONDS = (By.CSS_SELECTOR,'button[id="visibleAfter"]')
     WILL_ENABLE_5_SECONDS = (By.CSS_SELECTOR, 'button[id="enableAfter"]')
 
-

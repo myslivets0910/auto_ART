@@ -5,7 +5,6 @@ import time
 from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage, \
     UploadDownloadPage, DynamicPropertiesPage
 
-
 class TestElements: # основной класс для наших тестов
     class TestTextBox: # класс которые который отвечает за проверку полей на https://demoqa.com/text-box
         def test_text_box(self, driver):
@@ -186,7 +185,6 @@ class TestDynamicPropertiesPage:
         dynamic_properties_page.open()
         enable = dynamic_properties_page.check_enable_button()
         assert enable is True, 'упал test_enable_button'
-
 
 
 
