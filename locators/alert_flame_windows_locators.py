@@ -13,3 +13,18 @@ class BrowserWindowPageLocators:
 
     NEW_WINDOW_BUTTON_RESULT = (By.XPATH, "//*[@id='sampleHeading']")
     NEW_WINDOW_MESSAGE_BUTTON_RESULT = (By.CSS_SELECTOR, "//*[@id='messageWindowButton']")
+
+class AlertWindowPageLocators:
+
+    #buttons
+    SEE_ALERT_BUTTON = (By.XPATH,'//*[@id="alertButton"]')
+    TIMER_ALERT_BUTTON = (By.XPATH, '//*[@id="timerAlertButton"]')
+    CONFIRM_ALERT_BUTTON = (By.XPATH, '//*[@id="confirmButton"]')
+    PROMPT_INPUT_ALERT_BUTTON = (By.XPATH, '//*[@id="promtButton"]')
+
+    # result
+
+
+
+
+    pass

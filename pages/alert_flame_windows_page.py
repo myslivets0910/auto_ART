@@ -5,7 +5,7 @@ import time
 
 from selenium.common import TimeoutException
 
-from locators.alert_flame_windows_locators import BrowserWindowPageLocators
+from locators.alert_flame_windows_locators import BrowserWindowPageLocators, AlertWindowPageLocators
 from pages.base_page import BasePage
 
 
@@ -31,3 +31,12 @@ class BrowserWindowPage(BasePage):
         new_window_text = self.element_is_present(self.locators.NEW_WINDOW_BUTTON_RESULT).text
         #print(new_window_text)
         return new_window_text
+
+class AlertWindowPage(BasePage):
+    locators = AlertWindowPageLocators()
+
+    def check_see_alert(self):
+        self.element_is_visible(self.locators.SEE_ALERT_BUTTON).click()
+        alert_window = self.driver.switch_to.alert
+        # print(alert_window.text)
+        return alert_window.text
