@@ -24,11 +24,35 @@ class TestAlertFlameWindows:
 
 
     class TestAlertWindows:
-        def test_see_alert(self,driver):
-            # тест на проверку соjбения в алерте
+        def test_see_alert(self, driver):
+            # тест на проверку сообщения в алерте
             see_alert_page = AlertWindowPage(driver, "https://demoqa.com/alerts")
             see_alert_page.open()
             alert_text = see_alert_page.check_see_alert()
             assert alert_text == "You clicked a button", 'сообщение об ошибке '
 
+        def test_alert_appear_5_sec(self, driver):
+            # тест на проверку сообщения в алерте 5 секунд
+            see_alert_page = AlertWindowPage(driver, "https://demoqa.com/alerts")
+            see_alert_page.open()
+            alert_text = see_alert_page.check_alert_appear_5_sec()
+            assert alert_text == "This alert appeared after 5 seconds", 'сообщение об ошибке '
 
+        def test_confirm_alert(self,driver):
+            # тест на проверку сообщения в алерте c подтверждением (кнопками ОК или ОТмена)
+            see_alert_page = AlertWindowPage(driver, "https://demoqa.com/alerts")
+            see_alert_page.open()
+            alert_text = see_alert_page.check_confirm_alert()
+            print(alert_text)
+            assert alert_text == "You selected Ok", 'сообщение об ошибке'
+
+        def test_input_value_alert(self,driver):
+            # тест на проверку алерта с вводом значения
+            see_alert_page = AlertWindowPage(driver, "https://demoqa.com/alerts")
+            see_alert_page.open()
+            text, alert_text = see_alert_page.check_input_value_alert()
+            #print(text)
+            #print(alert_text)
+            assert alert_text == f"You entered {text}", 'сообщение об ошибке' # один вариант
+            # или что данные текст содержится в ответе
+            #assert text in alert_text, 'сообщение об ошибке'
