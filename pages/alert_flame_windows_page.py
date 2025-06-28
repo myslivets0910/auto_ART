@@ -5,7 +5,8 @@ import time
 
 from selenium.common import TimeoutException
 
-from locators.alert_flame_windows_locators import BrowserWindowPageLocators, AlertWindowPageLocators, FramePageLocators
+from locators.alert_flame_windows_locators import BrowserWindowPageLocators, AlertWindowPageLocators, FramePageLocators, \
+    NestedFramesPageLocators
 from pages.base_page import BasePage
 
 
@@ -87,3 +88,18 @@ class FramePage(BasePage):
             frame_text = self.element_is_present(self.locators.TITLE_FRAME).text
             self.driver.switch_to.default_content()
             return [frame_text, width, height]
+
+
+class NestedFramesPage(BasePage):
+    locators = NestedFramesPageLocators()
+
+    def check_nested_frame(self):
+        # методы для переключения на фреймы и проверки на содержимое в родительском
+        parent_frame = self.element_is_present(self.locators.PARENT_FRAME)
+        self.driver.switch_to.frame(parent_frame)
+        parent_text = self.element_is_present(self.locators.PARENT_FRAME_TITLE).text
+        # методы для переключения на фреймы и проверки на содержимое в дочернем не выходя из родительского
+        child_frame = self.element_is_present(self.locators.CHILD_FRAME)
+        self.driver.switch_to.frame(child_frame)
+        child_text = self.element_is_present(self.locators.CHILD_FRAME_TITLE).text
+        return parent_text, child_text

@@ -1,6 +1,6 @@
 import time
 
-from pages.alert_flame_windows_page import BrowserWindowPage, AlertWindowPage, FramePage
+from pages.alert_flame_windows_page import BrowserWindowPage, AlertWindowPage, FramePage, NestedFramesPage
 
 
 class TestAlertFlameWindows:
@@ -67,6 +67,19 @@ class TestAlertFlameWindows:
             result_2 = frame_page.check_frame('frame2')
             assert result_1 == ['This is a sample page', '500px', '350px'], 'сообщение об ошибке'
             assert result_2 == ['This is a sample page', '100px', '100px'], 'сообщение об ошибке'
+
+
+    class TestNestedFrames:
+        def test_nested_frames(self, driver):
+            # тест на проверку сообщения в вложенные фреймы
+            nested_frames_page = NestedFramesPage(driver, "https://demoqa.com/nestedframes")
+            nested_frames_page.open()
+            parent_text, child_text = nested_frames_page.check_nested_frame()
+            #print(parent_text)
+            #print(child_text)
+            assert parent_text == 'Parent frame', "сообщение от ошибке"
+            assert child_text == 'Child Iframe', "сообщение от ошибке"
+
 
 
 
