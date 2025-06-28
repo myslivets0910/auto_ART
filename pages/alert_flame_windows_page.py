@@ -5,7 +5,7 @@ import time
 
 from selenium.common import TimeoutException
 
-from locators.alert_flame_windows_locators import BrowserWindowPageLocators, AlertWindowPageLocators
+from locators.alert_flame_windows_locators import BrowserWindowPageLocators, AlertWindowPageLocators, FramePageLocators
 from pages.base_page import BasePage
 
 
@@ -65,3 +65,25 @@ class AlertWindowPage(BasePage):
         text_result = self.element_is_present(self.locators.RESULT_INPUT_VALUE_ALERT_ACCEPT).text
         return text, text_result
 
+
+class FramePage(BasePage):
+    locators = FramePageLocators()
+
+    def check_frame(self, frame_num):
+        # метод для переключения на фрейм и проверки на его размеры и содержимое
+        if frame_num == 'frame1':
+            frame = self.element_is_present(self.locators.FRAME_1)
+            width = frame.get_attribute('width') # ищем размеры фреймв по Атрибуту
+            height = frame.get_attribute('height') # ищем размеры фреймв по Атрибуту
+            self.driver.switch_to.frame(frame) # переключаемся на фрейм
+            frame_text = self.element_is_present(self.locators.TITLE_FRAME).text # ищем текст во фрейме
+            self.driver.switch_to.default_content()  # переключаемся на страницу (выходим из фрейма)
+            return [frame_text, width, height] # возвращаем то, что искали
+        if frame_num == 'frame2':
+            frame = self.element_is_present(self.locators.FRAME_2)
+            width = frame.get_attribute('width')
+            height = frame.get_attribute('height')
+            self.driver.switch_to.frame(frame)
+            frame_text = self.element_is_present(self.locators.TITLE_FRAME).text
+            self.driver.switch_to.default_content()
+            return [frame_text, width, height]

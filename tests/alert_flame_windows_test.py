@@ -1,6 +1,6 @@
 import time
 
-from pages.alert_flame_windows_page import BrowserWindowPage, AlertWindowPage
+from pages.alert_flame_windows_page import BrowserWindowPage, AlertWindowPage, FramePage
 
 
 class TestAlertFlameWindows:
@@ -56,3 +56,17 @@ class TestAlertFlameWindows:
             assert alert_text == f"You entered {text}", 'сообщение об ошибке' # один вариант
             # или что данные текст содержится в ответе
             #assert text in alert_text, 'сообщение об ошибке'
+
+
+    class TestFrame:
+        def test_frames(self, driver):
+            # тест на проверку сообщения в фраме
+            frame_page = FramePage(driver, "https://demoqa.com/frames")
+            frame_page.open()
+            result_1 = frame_page.check_frame('frame1')
+            result_2 = frame_page.check_frame('frame2')
+            assert result_1 == ['This is a sample page', '500px', '350px'], 'сообщение об ошибке'
+            assert result_2 == ['This is a sample page', '100px', '100px'], 'сообщение об ошибке'
+
+
+

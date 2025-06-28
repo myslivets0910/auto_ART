@@ -28,3 +28,9 @@ class AlertWindowPageLocators:
     RESULT_CONFIRM_ALERT_ACCEPT = (By.CSS_SELECTOR, 'span[id="confirmResult"]')
     RESULT_INPUT_VALUE_ALERT_ACCEPT = (By.CSS_SELECTOR, 'span[id="promptResult"]')
 
+
+class FramePageLocators:
+
+    FRAME_1 = (By.CSS_SELECTOR, 'iframe[id="frame1"]')
+    FRAME_2 = (By.CSS_SELECTOR, 'iframe[id="frame2"]')
+    TITLE_FRAME = (By.XPATH, "//*[@id='sampleHeading']")
