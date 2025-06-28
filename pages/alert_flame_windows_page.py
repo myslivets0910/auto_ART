@@ -6,7 +6,7 @@ import time
 from selenium.common import TimeoutException
 
 from locators.alert_flame_windows_locators import BrowserWindowPageLocators, AlertWindowPageLocators, FramePageLocators, \
-    NestedFramesPageLocators
+    NestedFramesPageLocators, ModalDialogsPageLocators
 from pages.base_page import BasePage
 
 
@@ -103,3 +103,23 @@ class NestedFramesPage(BasePage):
         self.driver.switch_to.frame(child_frame)
         child_text = self.element_is_present(self.locators.CHILD_FRAME_TITLE).text
         return parent_text, child_text
+
+
+class ModalDialogsPage(BasePage):
+    locators = ModalDialogsPageLocators()
+
+    def check_modal_dialogs(self):
+        # метод на первую кнопу + модалку
+        self.element_is_visible(self.locators.SMALL_MODAL_BUTTON).click()
+        title_small_modal = self.element_is_visible(self.locators.SMALL_MODAL_TITLE).text
+        body_small_modal = self.element_is_visible(self.locators.SMALL_MODAL_TEXT).text
+        self.element_is_visible(self.locators.SMALL_MODAL_CLOSE_BUTTON).click()
+        # метод на вторую кнопу + модалку
+        self.element_is_visible(self.locators.LARGE_MODAL_BUTTON).click()
+        title_large_modal = self.element_is_visible(self.locators.LARGE_MODAL_TITLE).text
+        body_large_modal = self.element_is_visible(self.locators.LARGE_MODAL_TEXT).text
+        self.element_is_visible(self.locators.LARGE_MODAL_CLOSE_BUTTON).click()
+
+        # результаты возрвращаем как загаловки и кол-во символов в тексте
+        return [title_small_modal, len(body_small_modal)] , [title_large_modal, len(body_large_modal)]
+

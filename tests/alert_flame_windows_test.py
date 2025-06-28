@@ -1,6 +1,7 @@
 import time
 
-from pages.alert_flame_windows_page import BrowserWindowPage, AlertWindowPage, FramePage, NestedFramesPage
+from pages.alert_flame_windows_page import BrowserWindowPage, AlertWindowPage, FramePage, NestedFramesPage, \
+    ModalDialogsPage
 
 
 class TestAlertFlameWindows:
@@ -81,5 +82,16 @@ class TestAlertFlameWindows:
             assert child_text == 'Child Iframe', "сообщение от ошибке"
 
 
+    class TestModalDialogs:
+
+        def test_modal_dialogs(self, driver):
+            # теста на проверку модальных окон
+            modal_dialogs_page = ModalDialogsPage(driver, "https://demoqa.com/modal-dialogs")
+            modal_dialogs_page.open()
+            small, large = modal_dialogs_page.check_modal_dialogs()
+
+            assert small[1] < large[1] # на отличие кол-ва символов в текстах
+            assert small[0] == 'Small Modal' , "сообщение от ошибке" # 2 = на соответствие текста в загаловке
+            assert large[0] == 'Large Modal' , "сообщение от ошибке" # 3 = на соответствие текста в загаловке
 
 
