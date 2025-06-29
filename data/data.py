@@ -14,3 +14,9 @@ class Person:
     current_address: str = None
     permanent_address: str = None
     mobile: str = None
+
+
+
+@dataclass #для class AutoCompletePage
+class Color:
+    color_name: list = None

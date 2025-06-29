@@ -1,7 +1,7 @@
 # устанавливаем пакет для генерации данных + заводим данные которые надо сгенерировать
 import random
 
-from data.data import Person
+from data.data import Person, Color
 from faker import Faker
 
 faker_ru = Faker('ru_RU')
@@ -57,3 +57,13 @@ def generated_city_selected(state):
         return selected_city
     else:
         return "Штат не найден."
+
+
+
+def generated_color():
+    # вводим генератор цветов из списка доступных для мультиселекта fill_input_multi /  class AutoCompletePage
+    yield Color(
+        color_name=["Red", "Blue", "Green", "Yellow", "Purple", "Black", "White", "Voilet", "Indigo", "Magenta", "Aqua"]
+    )
+
+
