@@ -140,6 +140,7 @@ class DatePickerPage(BasePage):
 class SliderPage(BasePage):
     locators = SliderPageLocators()
     def change_slider_value(self):
+        # метод на сравнене значение в слайдере в начале и после ввода значения
         value_before = self.element_is_visible(self.locators.VALUE_SLIDER).get_attribute("value")
         slider_input = self.element_is_visible(self.locators.INPUT_SLIDER)
         self.action_drag_and_drop_by_offset(slider_input, random.randint(1,100), 0)
@@ -152,6 +153,7 @@ class SliderPage(BasePage):
 class ProgressBarPage(BasePage):
     locators = ProgressBarPageLocators()
     def change_progress_bar_value(self):
+        # метод на сравнение результатов в перед запуском и после запуска прогрессбара
         value_before = self.element_is_present(self.locators.PROGRESS_BAR_VALUE).text
         progress_bar_button = self.elements_is_clickeble(self.locators.PROGRESS_BAR_BUTTON)
         progress_bar_button.click()
@@ -162,6 +164,8 @@ class ProgressBarPage(BasePage):
 
 
 class TabsPage(BasePage):
+    # метод для поиска title и content
+    # создаем словарь для поиска
     locators = TabsPageLocators()
     def check_tabs(self, name_tab=None):
         tabs = {'what':
