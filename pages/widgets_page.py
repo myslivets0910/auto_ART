@@ -3,13 +3,15 @@ import os
 import random
 import time
 
+
 import requests
 from selenium.common import TimeoutException
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.select import Select
 
-from generator.generator import generated_color
-from locators.widgets_locators import AccordianPageLocators, AutoCompletePageLocators
+from generator.generator import generated_color, generated_date
+from locators.widgets_locators import AccordianPageLocators, AutoCompletePageLocators, DatePickerPageLocators
 from pages.base_page import BasePage
 
 
@@ -41,7 +43,7 @@ class AccordianPage(BasePage):
 
         #print(section_title.text)
         #print(section_content)
-        return [section_title.text, len(section_content)]
+        return [section_title.text, len(section_content)] , 'сообщение об ошибке'
 
 class AutoCompletePage(BasePage):
 
@@ -88,6 +90,53 @@ class AutoCompletePage(BasePage):
         color = self.element_is_visible(self.locators.SINGLE_COMPLETE_VALUE)
         return color.text
 
+
+
+class DatePickerPage(BasePage):
+    locators = DatePickerPageLocators()
+    def select_date(self):
+        # метод на выбор и смену даты в датапикере (без времени)
+        date = next(generated_date())
+        input_date = self.element_is_visible(self.locators.DATE_INPUT)
+        value_date_before = input_date.get_attribute('value')
+        input_date.click()
+        self.set_date_by_text(self.locators.DATE_SELECT_MONTH, date.month)
+        self.set_date_by_text(self.locators.DATE_SELECT_YEAR, date.year)
+        self.set_date_item_from_list(self.locators.DATE_SELECT_DAY_LIST, date.day)
+        value_date_after = input_date.get_attribute('value')
+        return value_date_before, value_date_after
+
+
+    def select_date_and_time(self):
+        # # метод на выбор и смену даты и времени в датапикере
+        date = next(generated_date())
+        input_date = self.element_is_visible(self.locators.DATE_TIME_INPUT)
+        value_date_before = input_date.get_attribute('value')
+        input_date.click()
+        self.element_is_visible(self.locators.DATE_TIME_SELECT_MONTH).click()
+        self.set_date_item_from_list(self.locators.DATE_TIME_SELECT_MONTH_LIST, date.month)
+        self.element_is_visible(self.locators.DATE_TIME_SELECT_YEAR).click()
+        self.set_date_item_from_list(self.locators.DATE_TIME_SELECT_YEAR_LIST, "2020")
+        self.set_date_item_from_list(self.locators.DATE_SELECT_DAY_LIST, date.day)
+        self.set_date_item_from_list(self.locators.DATE_TIME_SELECT_TIME_LIST, date.time)
+        value_date_after = input_date.get_attribute('value')
+        return value_date_before, value_date_after
+
+
+
+
+    def  set_date_by_text(self, element, value):
+        # нажатие селекта для раскрытия списков в датапикере
+        select = Select(self.element_is_present(element))
+        select.select_by_visible_text(value)
+
+    def set_date_item_from_list(self, elements, value):
+        # выбор значения в раскрывшемся датапикере со значениями
+        item_list = self.elements_are_presents(elements)
+        for item in item_list:
+            if item.text == value:
+                item.click()
+                break
 
 
 

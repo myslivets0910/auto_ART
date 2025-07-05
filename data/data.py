@@ -20,3 +20,11 @@ class Person:
 @dataclass #для class AutoCompletePage
 class Color:
     color_name: list = None
+
+
+@dataclass # для генерации случайной даты
+class Date:
+    day: list = None
+    month: list = None
+    year: list = None
+    time: list = None

@@ -1,10 +1,11 @@
 # устанавливаем пакет для генерации данных + заводим данные которые надо сгенерировать
 import random
 
-from data.data import Person, Color
+from data.data import Person, Color, Date
 from faker import Faker
 
 faker_ru = Faker('ru_RU')
+faker_en = Faker('EN')
 Faker.seed()
 
 def generated_person(): # заводим данные которые надо сгенерировать
@@ -66,4 +67,12 @@ def generated_color():
         color_name=["Red", "Blue", "Green", "Yellow", "Purple", "Black", "White", "Voilet", "Indigo", "Magenta", "Aqua"]
     )
 
+def generated_date():
+    # вводим генератор дат из списка доступных для датапикера select_date_and_time и select_date
+    yield Date(
+        year=faker_en.year(),
+        month=faker_en.month_name(),
+        day=faker_en.day_of_month(),
+        time="12:00"
+    )
 
