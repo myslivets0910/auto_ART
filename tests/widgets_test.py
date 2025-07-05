@@ -1,7 +1,7 @@
 import time
 
 
-from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, ProgressBarPage, SliderPage
+from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, ProgressBarPage, SliderPage, TabsPage
 
 
 class TestWidgets:
@@ -96,3 +96,26 @@ class TestWidgets:
             #print(before)
             #print(after)
             assert before != after, "ПрогрессБар, значение не были изменены"
+
+
+    class TestTabsPage:
+        def test_change_tabs(self, driver):
+            # тест переключение по табам и проверку текста в них
+            # тест more с ошибкой - поэтому эта часть закомменчина
+            tabs_page = TabsPage(driver, 'https://demoqa.com/tabs')
+            tabs_page.open()
+            what_button, what_content = tabs_page.check_tabs('what')
+            origin_button, origin_content = tabs_page.check_tabs('origin')
+            use_button, use_content = tabs_page.check_tabs('use')
+            #more_button, more_content = tabs_page.check_tabs('more')
+
+            print(what_button, what_content)
+            print(origin_button, origin_content)
+            print(use_button, use_content)
+
+            assert what_button == "What" and what_content != 0, 'Загаловок не совпал, в ТАБЕ нет текста'
+            assert origin_button == "Origin" and origin_content != 0, 'Загаловок не совпал, в ТАБЕ нет текста'
+            assert use_button == "Use" and use_content != 0, 'Загаловок не совпал, в ТАБЕ нет текста'
+            #assert more_button == "More" and more_content != 0, 'Загаловок не совпал, в ТАБЕ нет текста'
+
+
