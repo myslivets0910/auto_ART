@@ -1,7 +1,7 @@
 import time
 
 
-from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage
+from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, ProgressBarPage, SliderPage
 
 
 class TestWidgets:
@@ -76,3 +76,23 @@ class TestWidgets:
             assert value_date_before != value_date_after, 'ОШИБКА, даты не должны быть одинаковыми'
 
 
+    class TestSliderPage:
+        def test_change_slider_value(self, driver):
+            # тест изменение значение в Слайдере
+            slider_page = SliderPage(driver, 'https://demoqa.com/slider')
+            slider_page.open()
+            before, after = slider_page.change_slider_value()
+            print(before)
+            print(after)
+            assert before != after, "Слайдер, значение не были изменены"
+
+
+    class TestProgressBarPage:
+        def test_change_progress_bar_value(self, driver):
+            # тест на изменение значений в ПрогрессБар
+            progress_bar_page = ProgressBarPage(driver, 'https://demoqa.com/progress-bar')
+            progress_bar_page.open()
+            before, after = progress_bar_page.change_progress_bar_value()
+            #print(before)
+            #print(after)
+            assert before != after, "ПрогрессБар, значение не были изменены"

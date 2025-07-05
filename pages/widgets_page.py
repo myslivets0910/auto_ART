@@ -11,7 +11,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 
 from generator.generator import generated_color, generated_date
-from locators.widgets_locators import AccordianPageLocators, AutoCompletePageLocators, DatePickerPageLocators
+from locators.widgets_locators import AccordianPageLocators, AutoCompletePageLocators, DatePickerPageLocators, \
+    ProgressBarPageLocators, SliderPageLocators
 from pages.base_page import BasePage
 
 
@@ -122,9 +123,6 @@ class DatePickerPage(BasePage):
         value_date_after = input_date.get_attribute('value')
         return value_date_before, value_date_after
 
-
-
-
     def  set_date_by_text(self, element, value):
         # нажатие селекта для раскрытия списков в датапикере
         select = Select(self.element_is_present(element))
@@ -139,4 +137,25 @@ class DatePickerPage(BasePage):
                 break
 
 
+class SliderPage(BasePage):
+    locators = SliderPageLocators()
+    def change_slider_value(self):
+        value_before = self.element_is_visible(self.locators.VALUE_SLIDER).get_attribute("value")
+        slider_input = self.element_is_visible(self.locators.INPUT_SLIDER)
+        self.action_drag_and_drop_by_offset(slider_input, random.randint(1,100), 0)
+        value_after = self.element_is_visible(self.locators.VALUE_SLIDER).get_attribute("value")
+        return value_before, value_after
 
+
+
+
+class ProgressBarPage(BasePage):
+    locators = ProgressBarPageLocators()
+    def change_progress_bar_value(self):
+        value_before = self.element_is_present(self.locators.PROGRESS_BAR_VALUE).text
+        progress_bar_button = self.elements_is_clickeble(self.locators.PROGRESS_BAR_BUTTON)
+        progress_bar_button.click()
+        time.sleep(random.randint(2,4))
+        progress_bar_button.click()
+        value_after = self.element_is_present(self.locators.PROGRESS_BAR_VALUE).text
+        return value_before, value_after
