@@ -12,7 +12,7 @@ from selenium.webdriver.support.select import Select
 
 from generator.generator import generated_color, generated_date
 from locators.widgets_locators import AccordianPageLocators, AutoCompletePageLocators, DatePickerPageLocators, \
-    ProgressBarPageLocators, SliderPageLocators, TabsPageLocators
+    ProgressBarPageLocators, SliderPageLocators, TabsPageLocators, ToolTipsPageLocators
 from pages.base_page import BasePage
 
 
@@ -185,6 +185,32 @@ class TabsPage(BasePage):
         button.click()
         what_content = self.element_is_visible(tabs[name_tab]['content']).text
         return button.text, len(what_content)
+
+
+class ToolTipsPage(BasePage):
+    locators = ToolTipsPageLocators()
+
+    def get_text_from_tool_tips(self, hover_element, wait_element):
+        # Наводим курсор на элемент
+        element = self.element_is_present(hover_element)
+        self.action_move_to_element(element)
+        # Добавляем задержку для появления подсказки
+        time.sleep(0.5)  # 500 миллисекунд, можно увеличить при необходимости
+        # Ждем появления подсказки
+        self.element_is_visible(wait_element)
+        # Ждем появления текста подсказки внутри
+        tooltip_text_element = self.element_is_visible(self.locators.INNERS_TOOL_TIPS_TEXT)
+        # Получаем текст
+        text = tooltip_text_element.text
+        return text
+
+    def check_tool_tips(self):
+        a = self.get_text_from_tool_tips(self.locators.BUTTON, self.locators.BUTTON_TOOL_TIPS)
+        b = self.get_text_from_tool_tips(self.locators.FIELD, self.locators.FIELD_TOOL_TIPS)
+        c = self.get_text_from_tool_tips(self.locators.CONTRARY_LINK, self.locators.CONTRARY_LINK_TOOL_TIPS)
+        d = self.get_text_from_tool_tips(self.locators.SECTION_LINK, self.locators.SECTION_LINK_TOOL_TIPS)
+        return a,b,c,d
+
 
 
 

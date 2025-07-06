@@ -1,7 +1,8 @@
 import time
 
 
-from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, ProgressBarPage, SliderPage, TabsPage
+from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, ProgressBarPage, SliderPage, TabsPage, \
+    ToolTipsPage
 
 
 class TestWidgets:
@@ -119,3 +120,19 @@ class TestWidgets:
             #assert more_button == "More" and more_content != 0, 'Загаловок не совпал, в ТАБЕ нет текста'
 
 
+    class TestToolTipsPage:
+        def test_tool_tips(self, driver):
+            #
+            tool_tips_page = ToolTipsPage(driver, 'https://demoqa.com/tool-tips')
+            tool_tips_page.open()
+
+            a, b, c, d = tool_tips_page.check_tool_tips()
+            print(a)
+            print(b)
+            print(c)
+            print(d)
+
+            assert a ==  "You hovered over the Button", 'Button = текст в тултипе не совподает'
+            assert b ==  "You hovered over the text field", 'Field = текст в тултипе не совподает'
+            assert c ==  "You hovered over the Contrary", 'Contrary = текст в тултипе не совподает'
+            assert d ==  "You hovered over the 1.10.32", 'Number = текст в тултипе не совподает'

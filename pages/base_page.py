@@ -50,6 +50,13 @@ class BasePage:
         action.perform()
 
 
+    def action_move_to_element(self, element):
+        # метод, который наводит курсор в центр элемент
+        action = ActionChains(self.driver)
+        action.move_to_element(element)
+        action.perform()
+
+
     def remove_footer(self):
         self.driver.execute_script('document.querySelector("#app > footer").remove();')
         # self.driver.execute_script('document.getElementById("fixedban").style.display="none"')
