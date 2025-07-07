@@ -1,6 +1,6 @@
 import time
 
-from pages.interactions_page import SortablePage
+from pages.interactions_page import SortablePage, SelectablePage
 
 
 class TestInteractions:
@@ -17,3 +17,14 @@ class TestInteractions:
             assert grid_before != grid_after, 'Ошибка, списки GRID не должны быть равны'
 
 
+    class TestSelectablePage:
+        def test_selectable(self, driver):
+
+            selectable_page = SelectablePage(driver, "https://demoqa.com/selectable")
+            selectable_page.open()
+            list_active = selectable_page.select_list_item()
+            grid_active = selectable_page.select_grid_item()
+            #print(list_active)
+            #print(grid_active)
+            assert len(list_active) > 0 , 'Ошибка, элемент не выбран из списка'
+            assert len(grid_active) > 0 , 'Ошибка, элемент не выбран из списка'

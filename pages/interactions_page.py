@@ -11,7 +11,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 
 from generator.generator import generated_color, generated_date
-from locators.interactions_locators import SortablePageLocators
+from locators.interactions_locators import SortablePageLocators, SelectablePageLocators
 from pages.base_page import BasePage
 
 
@@ -42,5 +42,27 @@ class SortablePage(BasePage):
         item_where = item_list[1]
         self.action_drag_and_drop_to_element(item_what, item_where)
         order_after = self.get_sortable_items(self.locators.GRID_TAB_ITEM)
-        return order_before , order_after
+        return order_before, order_after
 
+
+
+class SelectablePage(BasePage):
+    locators = SelectablePageLocators()
+    def click_selectable_item(self, elements):
+        # метод ищет список, и  который кликает на элемент списка
+        item_list = self.elements_are_visible(elements)
+        random.sample(item_list, k=2)[0].click()
+
+    def select_list_item(self):
+        # метод, который выбирает на какой элемент списка кликнуть и возвращает его
+        self.element_is_visible(self.locators.LIST_TAB).click()
+        self.click_selectable_item(self.locators.LIST_TAB_ITEM)
+        active_element = self.element_is_visible(self.locators.LIST_TAB_ITEM_ACTIVE)
+        return active_element.text
+
+    def select_grid_item(self):
+        # метод, который выбирает на какой  элемент списка кликнуть и возвращает его
+        self.element_is_visible(self.locators.GRID_TAB).click()
+        self.click_selectable_item(self.locators.GRID_TAB_ITEM)
+        active_element = self.element_is_visible(self.locators.GRID_TAB_ITEM_ACTIVE)
+        return active_element.text
