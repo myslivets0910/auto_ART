@@ -217,6 +217,7 @@ class DroppingMenuPage(BasePage):
     locators = DroppingMenuPageLocators()
 
     def check_dropping_menu(self):
+        # метод который наводит на каждую вкладку, чтобы раскрыть выпадающий список
         menu_item_list = self.elements_are_presents(self.locators.MENU_ITEM_LIST)
         data = []
         for item in menu_item_list:
