@@ -2,7 +2,7 @@ import time
 
 
 from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, ProgressBarPage, SliderPage, TabsPage, \
-    ToolTipsPage
+    ToolTipsPage, DroppingMenuPage
 
 
 class TestWidgets:
@@ -136,3 +136,14 @@ class TestWidgets:
             assert b ==  "You hovered over the text field", 'Field = текст в тултипе не совподает'
             assert c ==  "You hovered over the Contrary", 'Contrary = текст в тултипе не совподает'
             assert d ==  "You hovered over the 1.10.32", 'Number = текст в тултипе не совподает'
+
+
+
+    class TestDroppingMenu:
+        def test_dropping_menu(self, driver):
+            #
+            dropping_menu_page = DroppingMenuPage(driver, 'https://demoqa.com/menu')
+            dropping_menu_page.open()
+            data = dropping_menu_page.check_dropping_menu()
+            #print(data)
+            assert data == ['Main Item 1', 'Main Item 2', 'Sub Item', 'Sub Item', 'SUB SUB LIST »', 'Sub Sub Item 1', 'Sub Sub Item 2', 'Main Item 3'], 'Ошибка, загаловки в выпадающем меню не совпадают'

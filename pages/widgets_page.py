@@ -12,7 +12,7 @@ from selenium.webdriver.support.select import Select
 
 from generator.generator import generated_color, generated_date
 from locators.widgets_locators import AccordianPageLocators, AutoCompletePageLocators, DatePickerPageLocators, \
-    ProgressBarPageLocators, SliderPageLocators, TabsPageLocators, ToolTipsPageLocators
+    ProgressBarPageLocators, SliderPageLocators, TabsPageLocators, ToolTipsPageLocators, DroppingMenuPageLocators
 from pages.base_page import BasePage
 
 
@@ -213,5 +213,15 @@ class ToolTipsPage(BasePage):
 
 
 
+class DroppingMenuPage(BasePage):
+    locators = DroppingMenuPageLocators()
+
+    def check_dropping_menu(self):
+        menu_item_list = self.elements_are_presents(self.locators.MENU_ITEM_LIST)
+        data = []
+        for item in menu_item_list:
+            self.action_move_to_element(item)
+            data.append(item.text)
+        return data
 
 
