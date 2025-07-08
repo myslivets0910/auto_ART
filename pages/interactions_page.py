@@ -85,19 +85,24 @@ class ResizablePage(BasePage):
 
     def change_size_resizable_box(self):
         # метод, который передвигает угол окна по координатам
-        self.action_drag_and_drop_by_offset(self.element_is_visible(self.locators.RESIZABLE_BOX_HANDLE), 400, 200)
+        self.action_drag_and_drop_by_offset(self.element_is_present(self.locators.RESIZABLE_BOX_HANDLE), 400, 200)
         max_size = self.get_px_from_width_height(self.get_max_min_size(self.locators.RESIZABLE_BOX))
-        self.action_drag_and_drop_by_offset(self.element_is_visible(self.locators.RESIZABLE_BOX_HANDLE), -100, -50)
+        self.action_drag_and_drop_by_offset(self.element_is_present(self.locators.RESIZABLE_BOX_HANDLE), -100, -50)
         mix_size = self.get_px_from_width_height(self.get_max_min_size(self.locators.RESIZABLE_BOX))
         return max_size, mix_size
 
     def change_size_resizable(self):
-        handle = self.element_is_present(self.locators.RESIZABLE_HANDLE)
-        # Прокручиваем, скроллим к элементу handle
-        self.go_to_element(handle)
-        # Делаем небольшие перемещения
-        self.action_drag_and_drop_by_offset(handle, 150,150)
-        max_size = handle.size
-        self.action_drag_and_drop_by_offset(handle, -150, -150)
-        min_size = handle.size
+        self.action_drag_and_drop_by_offset(self.element_is_visible(self.locators.RESIZABLE_HANDLE),
+                                            random.randint(20,50),random.randint(60,70))
+
+        max_size = self.get_px_from_width_height(self.get_max_min_size(self.locators.RESIZABLE))
+
+        self.action_drag_and_drop_by_offset(self.element_is_visible(self.locators.RESIZABLE_HANDLE),
+                                           random.randint(-50, -40), random.randint(-30, -20))
+        min_size =self.get_px_from_width_height(self.get_max_min_size(self.locators.RESIZABLE))
         return max_size, min_size
+
+
+
+
+

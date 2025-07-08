@@ -34,9 +34,14 @@ class TestInteractions:
         def test_resizable(self, driver):
             resizable_page = ResizablePage(driver, "https://demoqa.com/resizable")
             resizable_page.open()
-            #max_box, min_box = resizable_page.change_size_resizable_box()
+            max_box, min_box = resizable_page.change_size_resizable_box()
             max_box_r, min_box_r = resizable_page.change_size_resizable()
-            print(min_box, min_box)
-            print(max_box_r, min_box_r)
+            print(min_box, max_box)
+            print(min_box_r, max_box_r)
+
+            assert ('400px', '400px') == min_box, 'минимальные границы не равны 400рх'
+            assert ('500px', '500px') == max_box, 'максимальные границы не равны 500рх'
+            assert min_box_r != max_box_r ,'Ошибка, минимальная и максимальная граница одинаковые'
+
 
 
