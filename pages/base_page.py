@@ -11,9 +11,17 @@ class BasePage:
     def open(self):
         self.driver.get(self.url)
 
-    def element_is_visible(self, locator, timeout=5): # чтобы был виден конкретный элемент
-        self.go_to_element(locator)
-        return wait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
+   # def element_is_visible(self, locator, timeout=5): # чтобы был виден конкретный элемент
+      #  self.go_to_element(locator)
+      #  return wait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
+
+    def element_is_visible(self, locator, timeout=10):
+        """Сначала находит элемент, затем прокручивает к нему и проверяет видимость"""
+        element = self.element_is_present(locator, timeout)
+        if element:
+            self.go_to_element(element)
+            return element if element.is_displayed() else None
+        return None
 
     def elements_are_visible(self, locator, timeout=5): # чтобы был видно несколько элементов
         return wait(self.driver, timeout).until(EC.visibility_of_all_elements_located(locator))
@@ -30,8 +38,18 @@ class BasePage:
     def elements_is_clickeble(self, locator, timeout=5): # чтобы элемент стал кликабельным
         return wait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
 
-    def go_to_element(self, element): # помогает перемещать к нужному элементу
-        self.driver.execute_script("arguments[0].scrollIntoView();", element)
+    #def go_to_element(self, element): # помогает перемещать к нужному элементу
+    #    self.driver.execute_script("arguments[0].scrollIntoView();", element)
+
+    def go_to_element(self, element):
+        """Прокручивает страницу к указанному элементу"""
+        if isinstance(element, tuple):  # Если передали локатор вместо элемента
+            element = self.element_is_present(element)
+        try:
+            self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+        except Exception as e:
+            print(f"Ошибка при прокрутке к элементу: {e}")
+            raise
 
     def action_double_click(self, element): # добавили функцию чтобы делать дабл клик
         action = ActionChains(self.driver) # добавили библиотеку ActionChains
