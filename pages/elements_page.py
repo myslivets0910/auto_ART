@@ -10,6 +10,7 @@ from selenium.webdriver.common.by import By
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
     WebTablePageLocators, ButtonsPageLocators, LinksPageLocators, UploadDownloadPageLocators, \
     DynamicPropertiesPageLocators
+from locators.widgets_locators import ToolTipsPageLocators
 from pages.base_page import BasePage
 from generator.generator import generated_person, generated_file
 
@@ -203,7 +204,7 @@ class LinksPage(BasePage):
             return request.status_code, link_href
 
     def check_broken_link(self,url):
-        # функция на проверку неактивных ссылок
+        # функция на проверку неактивных ссылок  + получение ответа запроса
         request = requests.get(url)
         if request.status_code == 200:
             self.element_is_present(self.locators.BAD_REQUEST_LINK).click()
@@ -267,6 +268,9 @@ class DynamicPropertiesPage(BasePage):
         except TimeoutExcepcion:
             return False
         return True
+
+
+
 
 
 
