@@ -11,7 +11,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 
 from generator.generator import generated_color, generated_date
-from locators.interactions_locators import SortablePageLocators, SelectablePageLocators
+from locators.interactions_locators import SortablePageLocators, SelectablePageLocators, ResizablePageLocators
 from pages.base_page import BasePage
 
 
@@ -66,3 +66,38 @@ class SelectablePage(BasePage):
         self.click_selectable_item(self.locators.GRID_TAB_ITEM)
         active_element = self.element_is_visible(self.locators.GRID_TAB_ITEM_ACTIVE)
         return active_element.text
+
+
+class ResizablePage(BasePage):
+    locators = ResizablePageLocators()
+
+    def get_px_from_width_height(self, value_of_size):
+        # вспомогательный метод для определения размеров окна
+        width = value_of_size.split(';')[0].split(':')[1].replace(' ','')
+        height = value_of_size.split(';')[0].split(':')[1].replace(' ','')
+        return width, height
+
+    def get_max_min_size(self, element):
+        # вспомогательный метод для определения размеров элемента
+        size = self.element_is_present(element)
+        size_value = size.get_attribute('style')
+        return size_value
+
+    def change_size_resizable_box(self):
+        # метод, который передвигает угол окна по координатам
+        self.action_drag_and_drop_by_offset(self.element_is_visible(self.locators.RESIZABLE_BOX_HANDLE), 400, 200)
+        max_size = self.get_px_from_width_height(self.get_max_min_size(self.locators.RESIZABLE_BOX))
+        self.action_drag_and_drop_by_offset(self.element_is_visible(self.locators.RESIZABLE_BOX_HANDLE), -100, -50)
+        mix_size = self.get_px_from_width_height(self.get_max_min_size(self.locators.RESIZABLE_BOX))
+        return max_size, mix_size
+
+    def change_size_resizable(self):
+        handle = self.element_is_present(self.locators.RESIZABLE_HANDLE)
+        # Прокручиваем, скроллим к элементу handle
+        self.go_to_element(handle)
+        # Делаем небольшие перемещения
+        self.action_drag_and_drop_by_offset(handle, 150,150)
+        max_size = handle.size
+        self.action_drag_and_drop_by_offset(handle, -150, -150)
+        min_size = handle.size
+        return max_size, min_size
