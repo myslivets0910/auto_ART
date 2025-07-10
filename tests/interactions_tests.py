@@ -1,6 +1,6 @@
 import time
 
-from pages.interactions_page import SortablePage, SelectablePage, ResizablePage, DroppablePage
+from pages.interactions_page import SortablePage, SelectablePage, ResizablePage, DroppablePage, DragabblePage
 
 
 class TestInteractions:
@@ -83,3 +83,35 @@ class TestInteractions:
             not_will_after_move, not_will_after_revert = droppable_page.drop_revert_draggable("not_will")
             assert will_after_move != will_after_revert, 'Ошибка, элемент не переместился'
             assert not_will_after_move == not_will_after_revert, 'Ошибка, элемент переместился'
+
+
+
+    class TestDragabblePage:
+     # тест на перемещение элементов в элемент
+        def test_dragabble_simple(self, driver):
+            dragabble_page = DragabblePage(driver, "https://demoqa.com/dragabble")
+            dragabble_page.open()
+            before_pos, after_pos = dragabble_page.simple_drag_box()
+            print(before_pos)
+            print(after_pos)
+
+        def test_dragabble_axis_restricted(self, driver):
+            dragabble_page = DragabblePage(driver, "https://demoqa.com/dragabble")
+            dragabble_page.open()
+            top_x, left_x = dragabble_page.axis_restricted_x()
+            top_y, left_y = dragabble_page.axis_restricted_y()
+            #print(top_x)
+            #print(left_x)
+            #print(top_y)
+            #print(left_y)
+            assert top_x[0][0] == top_x[1][0] and int(top_x[1][0]) == 0 , 'Ошибка, координаты не совпадают y top_x'
+            assert left_x[0][0] != left_x[1][0] and int(left_x[1][0]) != 0 , 'Ошибка, координаты не совпадают y left_x'
+            assert top_y[0][0] != top_y[1][0] and int(top_y[1][0]) != 0 , 'Ошибка, координаты не совпадают y top_y'
+            assert left_y[0][0] == left_y[1][0] and int(left_y[1][0]) == 0 , 'Ошибка, координаты не совпадают y left_y'
+
+
+
+
+
+
+
