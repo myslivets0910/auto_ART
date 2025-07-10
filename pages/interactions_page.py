@@ -11,7 +11,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 
 from generator.generator import generated_color, generated_date
-from locators.interactions_locators import SortablePageLocators, SelectablePageLocators, ResizablePageLocators
+from locators.interactions_locators import SortablePageLocators, SelectablePageLocators, ResizablePageLocators, \
+    DroppablePageLocators
 from pages.base_page import BasePage
 
 
@@ -104,5 +105,80 @@ class ResizablePage(BasePage):
 
 
 
+class DroppablePage(BasePage):
+    locators = DroppablePageLocators()
+
+    def drop_simple(self):
+        # методы,  который перетаскивает элемент в элемент и возращает текст элементов
+        self.element_is_visible(self.locators.TAB_SIMPLE).click()
+        drag_div = self.element_is_visible(self.locators.DRAG_ME_SIMPLE)
+        drop_div = self.element_is_visible(self.locators.DROP_HERE_SIMPLE)
+        self.action_drag_and_drop_to_element(drag_div, drop_div)
+        return drop_div.text
+
+    def drop_accept(self):
+        # методы,  который перетаскивает элемент в элемент и возращает текст элементов
+        self.element_is_visible(self.locators.TAB_ACCEPT).click() # клик на таб
+        # указываем на элементы, что есть на странице
+        acceptable_div = self.element_is_visible(self.locators.ACCEPTABLE)
+        not_acceptable_div = self.element_is_visible(self.locators.NOT_ACCEPTABLE)
+        drop_div = self.element_is_visible(self.locators.DROP_HERE_ACCEPT)
+        # перетаскиваем элемент в элемент
+        self.action_drag_and_drop_to_element(not_acceptable_div, drop_div)
+        drop_div_not_acceptable = drop_div.text
+        # перетаскиваем элемент в элемент
+        self.action_drag_and_drop_to_element(acceptable_div, drop_div)
+        drop_div_acceptable = drop_div.text
+        # выводим результат перетаскиваний
+        return drop_div_not_acceptable, drop_div_acceptable
+
+
+    def drop_prevent(self):
+        # методы,  который перетаскивает элементы в элемент и возращает текст элементов
+        self.element_is_visible(self.locators.TAB_PREVENT).click()
+        drag_div = self.element_is_visible(self.locators.DRAG_ME_PREVENT)
+        not_greedy_box_inner = self.element_is_visible(self.locators.NOT_GREEDY_INNER_BOX)
+        greedy_box_inner = self.element_is_visible(self.locators.GREEDY_INNER_BOX)
+
+        self.action_drag_and_drop_to_element(drag_div, not_greedy_box_inner)
+        text_not_greedy_box = self.element_is_visible(self.locators.NOT_GREEDY_DROP_BOX_TEXT).text
+        text_not_greedy_box_inner = not_greedy_box_inner.text
+
+        self.action_drag_and_drop_to_element(drag_div, greedy_box_inner)
+        text_greedy_box = self.element_is_visible(self.locators.GREEDY_DROP_BOX_TEXT).text
+        text_greedy_box_inner = greedy_box_inner.text
+
+        return text_not_greedy_box, text_not_greedy_box_inner, text_greedy_box, text_greedy_box_inner
+
+
+    def drop_will_revert_draggable(self):
+        # методы,  который перетаскивает элемент в элемент и возращает координаты элементов
+        # не используется
+        self.element_is_visible(self.locators.TAB_REVENT).click()
+        will_revert = self.element_is_visible(self.locators.WILL_REVENT)
+        drop_div = self.element_is_visible(self.locators.DROP_HERE_REVENT)
+
+        self.action_drag_and_drop_to_element(will_revert, drop_div)
+        position_after_move = will_revert.get_attribute('style')
+        time.sleep(1)
+        position_after_revert = will_revert.get_attribute('style')
+        return position_after_move, position_after_revert
+
+    def drop_revert_draggable(self, type_drag):
+        # методы,  который перетаскивает элемент в элемент и возвращает координаты элементов
+        #используется, общий для всей вкладки
+        drags = {'will':
+                    {'revert': self.locators.WILL_REVENT,},
+                'not_will':
+                    {'revert': self.locators.NOT_REVENT},
+        }
+        self.element_is_visible(self.locators.TAB_REVENT).click()
+        revert = self.element_is_visible(drags[type_drag]['revert'])
+        drop_div = self.element_is_visible(self.locators.DROP_HERE_REVENT)
+        self.action_drag_and_drop_to_element(revert, drop_div)
+        position_after_move = revert.get_attribute('style')
+        time.sleep(1)
+        position_after_revert = revert.get_attribute('style')
+        return position_after_move, position_after_revert
 
 

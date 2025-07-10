@@ -1,6 +1,6 @@
 import time
 
-from pages.interactions_page import SortablePage, SelectablePage, ResizablePage
+from pages.interactions_page import SortablePage, SelectablePage, ResizablePage, DroppablePage
 
 
 class TestInteractions:
@@ -44,4 +44,42 @@ class TestInteractions:
             assert min_box_r != max_box_r ,'Ошибка, минимальная и максимальная граница одинаковые'
 
 
+    class TestDroppablePage:
+     # тест на перемещение элементов в элемент
+        def test_droppable_simple(self, driver):
+            droppable_page = DroppablePage(driver, "https://demoqa.com/droppable")
+            droppable_page.open()
+            text_simple = droppable_page.drop_simple()
+            print(text_simple)
+            assert text_simple == "Dropped!", 'Текст в DROP не совпадает с результатом'
 
+        def test_droppable_accept(self, driver):
+            droppable_page = DroppablePage(driver, "https://demoqa.com/droppable")
+            droppable_page.open()
+            not_accept, accept = droppable_page.drop_accept()
+            #print(not_accept)
+            #print(accept)
+            assert not_accept == "Drop here", 'Текст в DROP не совпадает при not_accept'
+            assert accept == "Dropped!", 'Текст в DROP не совпадает при accept'
+
+        def test_droppable_prevent_propogation(self, driver):
+            droppable_page = DroppablePage(driver, "https://demoqa.com/droppable")
+            droppable_page.open()
+            text_1, text_2, text_3, text_4 = droppable_page.drop_prevent()
+            print(text_1)
+            print(text_2)
+            print(text_3)
+            print(text_4)
+
+            assert text_1 == "Dropped!", 'Текст в DROP не совпадает при Drag Me'
+            assert text_2 == "Dropped!", 'Текст в DROP не совпадает при Drag Me'
+            assert text_3 == "Outer droppable", 'Текст в DROP не совпадает при Drag Me'
+            assert text_4 == "Dropped!", 'Текст в DROP не совпадает при Drag Me'
+
+        def test_droppable_revent_draggable(self, driver):
+            droppable_page = DroppablePage(driver, "https://demoqa.com/droppable")
+            droppable_page.open()
+            will_after_move, will_after_revert = droppable_page.drop_revert_draggable("will")
+            not_will_after_move, not_will_after_revert = droppable_page.drop_revert_draggable("not_will")
+            assert will_after_move != will_after_revert, 'Ошибка, элемент не переместился'
+            assert not_will_after_move == not_will_after_revert, 'Ошибка, элемент переместился'
