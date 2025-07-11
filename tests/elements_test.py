@@ -1,12 +1,20 @@
 # прописваем тесты только здесь
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import random
 import time
+
+import allure
 
 from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage, \
     UploadDownloadPage, DynamicPropertiesPage
 
+@allure.suite("Elements")
 class TestElements: # основной класс для наших тестов
+    @allure.feature("TextBox")
     class TestTextBox: # класс которые который отвечает за проверку полей на https://demoqa.com/text-box
+        @allure.title("Text text_box")
         def test_text_box(self, driver):
             text_box_page = TextBoxPage(driver, "https://demoqa.com/text-box")
             text_box_page.open()
@@ -19,7 +27,9 @@ class TestElements: # основной класс для наших тестов
             assert permanent_address == output_per_addr,  "the permanent_address does not match"
             #сравниваем данные которые ввели и которые отобразились в таблице
 
+    @allure.feature("ChechBox")
     class TestChechBox: # класс в котором проводятс проверки на странице ЧЕКБОКСОВ
+        @allure.title("Text check_box")
         def test_check_box(self, driver):
             check_box_page = CheckBoxPage(driver,"https://demoqa.com/checkbox")
             check_box_page.open() #открыли страницу
@@ -30,8 +40,9 @@ class TestElements: # основной класс для наших тестов
             assert input_checkbox == output_result, 'checkboxes have been selected'
         # сравнили результаты
 
-
+    @allure.feature("RadioButton")
     class TestRadioButton: # класс который проводит тесты на радиокнопки
+        @allure.title("Text radiobutton")
         def test_radiobutton(self, driver):
             radio_button_page = RadioButtonPage(driver, "https://demoqa.com/radio-button")
             radio_button_page.open()
@@ -51,8 +62,10 @@ class TestElements: # основной класс для наших тестов
             output_no = radio_button_page.get_output_result_button()
             assert output_no == 'No','"No" have not been selected'
 
+    @allure.feature("WebTable")
     class TestWebTable:
         # класс который проводит тесты с таблицей.
+        @allure.title("WebTable web_table_add_person")
         def test_web_table_add_person(self,driver):
             web_table_page = WebTablePage(driver, "https://demoqa.com/webtables")
             web_table_page.open()
@@ -64,6 +77,7 @@ class TestElements: # основной класс для наших тестов
             print(table_result)
             assert new_person in table_result
 
+        @allure.title("WebTable search_for_a_person_in_web_table")
         def test_search_for_a_person_in_web_table(self, driver):
             # тест на проверку персоны в таблице через поисковую строку
             web_table_page = WebTablePage(driver, "https://demoqa.com/webtables")
@@ -80,6 +94,7 @@ class TestElements: # основной класс для наших тестов
             # Проверяем, содержится ли key_word в одной из строк таблицы
             assert any(key_word in row for row in table_result), f"'{key_word}' not found in the results"
 
+        @allure.title("WebTable web_table_update_person_info")
         def test_web_table_update_person_info(self,driver):
             # обновление информации о человеке
             web_table_page = WebTablePage(driver, "https://demoqa.com/webtables")
@@ -97,6 +112,7 @@ class TestElements: # основной класс для наших тестов
             # Если оно не будет найдено, генерируется более понятное сообщение об ошибке,
             # что может помочь вам в дальнейшем диагностировании проблемы.
 
+        @allure.title("WebTable web_table_delete_persons")
         def test_web_table_delete_persons(self,driver):
             # тест на удаление персоны
             web_table_page = WebTablePage(driver, "https://demoqa.com/webtables")
@@ -107,6 +123,7 @@ class TestElements: # основной класс для наших тестов
             text = web_table_page.check_deleted()
             assert text == "No rows found"
 
+        @allure.title("WebTable web_table_change_the_lines_page")
         def test_web_table_change_the_lines_page(self,driver):
             # изменение отображения кол-ва строк в таблице
             web_table_page = WebTablePage(driver, "https://demoqa.com/webtables")
@@ -114,8 +131,10 @@ class TestElements: # основной класс для наших тестов
             count = web_table_page.select_up_to_some_row()
             assert count == [5, 10, 20, 25, 50, 100],'Смена кол-ва строк в таблице отработало НЕКОРРЕКТНО'
 
+    @allure.feature("Buttons")
     class TestButtonsPage:
 
+        @allure.title("Buttons different_click_on_the_button")
         def test_different_click_on_the_button(self, driver):
             # тест на нажатие кнопок по очереди
             button_page = ButtonsPage(driver, "https://demoqa.com/buttons")
@@ -130,9 +149,10 @@ class TestElements: # основной класс для наших тестов
             print(one_click)
             assert one_click == 'You have done a dynamic click', 'the dynamic click button was not present'
 
+    @allure.feature("Links")
     class TestLinksPage:
         # класс на проверку перехода по ссылкам
-
+        @allure.title("Links check_link")
         def test_check_link(self,driver):
             # тест по переходу на активные ссылки
             links_page = LinksPage(driver, "https://demoqa.com/links")
@@ -141,7 +161,7 @@ class TestElements: # основной класс для наших тестов
             print(link_href, current_link)
             assert link_href == current_link, 'коммент в случае падения'
 
-
+        @allure.title("Links broken_link")
         def test_broken_link(self,driver):
             # тест по переходу на неактивные ссылки
             links_page = LinksPage(driver, "https://demoqa.com/links")
@@ -149,42 +169,48 @@ class TestElements: # основной класс для наших тестов
             responce_code = links_page.check_broken_link('https://demoqa.com/bad-request')
             assert responce_code == 400, 'коммент в случае падения'
 
+    @allure.feature("UploadDownload")
+    class TestUploadDownloadPage:
 
-class TestUploadDownloadPage:
-    def test_upload_file(self, driver):
+        @allure.title("UploadDownload upload_file")
+        def test_upload_file(self, driver):
         # тест по загрузке файла и проверку, что загрузился этот файл
-        upload_download_page = UploadDownloadPage(driver, "https://demoqa.com/upload-download")
-        upload_download_page.open()
-        file_name, result = upload_download_page.upload_file()
-        assert file_name == result, 'the file has not been uploaded'
+            upload_download_page = UploadDownloadPage(driver, "https://demoqa.com/upload-download")
+            upload_download_page.open()
+            file_name, result = upload_download_page.upload_file()
+            assert file_name == result, 'the file has not been uploaded'
 
-    def test_download_file(self, driver):
+        @allure.title("UploadDownload download_file")
+        def test_download_file(self, driver):
         # тест по переходу на активные ссылки
-        upload_download_page = UploadDownloadPage(driver, "https://demoqa.com/upload-download")
-        upload_download_page.open()
-        check = upload_download_page.download_file()
-        assert check is True, 'the file has not been downloaded'
+            upload_download_page = UploadDownloadPage(driver, "https://demoqa.com/upload-download")
+            upload_download_page.open()
+            check = upload_download_page.download_file()
+            assert check is True, 'the file has not been downloaded'
 
-class TestDynamicPropertiesPage:
+    @allure.feature("DynamicProperties")
+    class TestDynamicPropertiesPage:
 
+        @allure.title("DynamicProperties dynamic_properties")
+        def test_dynamic_properties(self,driver):
+            dynamic_properties_page = DynamicPropertiesPage(driver,"https://demoqa.com/dynamic-properties")
+            dynamic_properties_page.open()
+            color_button_defore , color_button_after = dynamic_properties_page.check_changed_of_color()
+            assert color_button_defore != color_button_after , 'одинаковые цвета , упал test_dynamic_properties'
 
-    def test_dynamic_properties(self,driver):
-        dynamic_properties_page = DynamicPropertiesPage(driver,"https://demoqa.com/dynamic-properties")
-        dynamic_properties_page.open()
-        color_button_defore , color_button_after = dynamic_properties_page.check_changed_of_color()
-        assert color_button_defore != color_button_after , 'одинаковые цвета , упал test_dynamic_properties'
+        @allure.title("DynamicProperties appear_button")
+        def test_appear_button(self,driver):
+            dynamic_properties_page = DynamicPropertiesPage(driver, "https://demoqa.com/dynamic-properties")
+            dynamic_properties_page.open()
+            appear = dynamic_properties_page.check_appear_of_button()
+            assert appear is True , 'test_appear_button'
 
-    def test_appear_button(self,driver):
-        dynamic_properties_page = DynamicPropertiesPage(driver, "https://demoqa.com/dynamic-properties")
-        dynamic_properties_page.open()
-        appear = dynamic_properties_page.check_appear_of_button()
-        assert appear is True , 'test_appear_button'
-
-    def test_enable_button(self, driver):
-        dynamic_properties_page = DynamicPropertiesPage(driver, "https://demoqa.com/dynamic-properties")
-        dynamic_properties_page.open()
-        enable = dynamic_properties_page.check_enable_button()
-        assert enable is True, 'упал test_enable_button'
+        @allure.title("DynamicProperties enable_button")
+        def test_enable_button(self, driver):
+            dynamic_properties_page = DynamicPropertiesPage(driver, "https://demoqa.com/dynamic-properties")
+            dynamic_properties_page.open()
+            enable = dynamic_properties_page.check_enable_button()
+            assert enable is True, 'упал test_enable_button'
 
 
 

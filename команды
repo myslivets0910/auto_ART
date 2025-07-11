@@ -1,0 +1,8 @@
+allure serve .\tests\allure_results\    - команда которая создает отчет в графическом виде
+
+pytest --alluredir=tests\allure_results .\tests\elements_test.py - команда которая запускает тесты
+                                                                  elements_test.py - данная часть меняется в зависимости от
+                                                                   того что надо запустить
+
+
+pip freeze > .\requirements.txt            перезапись файла requirements.txt со всеми зависимостями
